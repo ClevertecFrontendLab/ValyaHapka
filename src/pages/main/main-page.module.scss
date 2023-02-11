@@ -1,0 +1,43 @@
+.main {
+  &_page {
+    margin-left: 165px;
+    margin-right: 165px;
+    footer {
+      margin-top: 62px;
+    }
+  }
+  &_content {
+    position: relative;
+    margin-top: 62px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 6px;
+    &_wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+  }
+  @media (max-width: 1240px) {
+    &_content {
+      display: block;
+    }
+  }
+}
+@media (max-width: 957px) {
+  .main {
+    &_page {
+      margin-left: 66.67px;
+      margin-right: 66.67px;
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .main {
+    &_page {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+  }
+}

@@ -1,0 +1,77 @@
+[
+  {
+    "name": "Все книги",
+    "value": 157,
+    "route": "allBooks"
+  },
+  {
+    "name": "Бизнес-книги",
+    "value": 14,
+    "route": "businessBooks"
+  },
+  {
+    "name": "Детективы",
+    "value": 8,
+    "route": "detectives"
+  },
+  {
+    "name": "Детские книги",
+    "value": 14,
+    "route": "children'sBooks"
+  },
+  {
+    "name": "Зарубежная литература",
+    "value": 2,
+    "route": "foreignLiterature"
+  },
+  {
+    "name": "История",
+    "value": 5,
+    "route": "history"
+  },
+  {
+    "name": "Классическая литература",
+    "value": 12,
+    "route": "classicalBooks"
+  },
+  {
+    "name": "Книги по психологии",
+    "value": 11,
+    "route": "psychologicalBooks"
+  },
+  {
+    "name": "Компьютерная литература",
+    "value": 54,
+    "route": "computerScience"
+  },
+  {
+    "name": "Культура и искусство",
+    "value": 5,
+    "route": "cultureAndArt"
+  },
+  {
+    "name": "Наука и образование",
+    "value": 2,
+    "route": "scinceAndGraduation"
+  },
+  {
+    "name": "Публицистическая литература",
+    "value": 0,
+    "route": "journalism"
+  },
+  {
+    "name": "Справочники",
+    "value": 10,
+    "route": "guides"
+  },
+  {
+    "name": "Фантастика",
+    "value": 12,
+    "route": "fiction"
+  },
+  {
+    "name": "Юмористическая литература",
+    "value": 8,
+    "route": "humorBooks"
+  }
+]

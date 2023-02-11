@@ -1,0 +1,35 @@
+.books_bricks {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 21.5px;
+}
+.books_list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+@media (max-width: 1439px) {
+  .books_bricks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 21.5px;
+  }
+}
+@media (max-width: 1240px) {
+  .books_bricks {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 1440px) {
+  .books_list {
+    align-items: center;
+  }
+}
+
+@media (max-width: 540px) {
+  .books_bricks {
+    flex-direction: column;
+    align-items: center;
+  }
+}
