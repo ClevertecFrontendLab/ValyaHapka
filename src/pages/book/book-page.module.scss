@@ -1,10 +1,14 @@
 .book {
+  &_loading {
+    margin-left: 165px;
+    margin-right: 165px;
+  }
   margin-left: 165px;
   margin-right: 165px;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 42px;
+  min-height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 42px !important;
   &_pathline {
     position: relative;
     right: 165px;

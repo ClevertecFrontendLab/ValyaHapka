@@ -6,6 +6,7 @@ import { FreeMode, Scrollbar, Thumbs } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperClass from 'swiper/types/swiper-class';
 
+import { Image } from '../../interfaces/books-fetch';
 import { SwiperProps } from '../../interfaces/swiper-props';
 
 import styles from './slider-desktop.module.scss';
@@ -15,7 +16,7 @@ import 'swiper/css/scrollbar';
 import 'swiper/css/free-mode';
 import 'swiper/css/thumbs';
 
-export const Slider: React.FC<SwiperProps> = React.memo(({ imgs, setImg, activeImg }) => {
+export const Slider: React.FC<SwiperProps> = React.memo(({ imgs }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass>();
 
   return (
@@ -28,9 +29,9 @@ export const Slider: React.FC<SwiperProps> = React.memo(({ imgs, setImg, activeI
         className={styles.container_myswiper}
         data-test-id='slide-big'
       >
-        {(imgs as string[]).map((img) => (
+        {(imgs as Image[]).map((img) => (
           <SwiperSlide className={styles.container_myswiper_slide}>
-            <img src={img} alt='' className={styles.container_myswiper_bookImg} />
+            <img src={img.url} alt='' className={styles.container_myswiper_bookImg} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -44,9 +45,9 @@ export const Slider: React.FC<SwiperProps> = React.memo(({ imgs, setImg, activeI
         modules={[FreeMode, Thumbs, Scrollbar]}
         className={styles.container_myswiper}
       >
-        {(imgs as string[]).map((img) => (
+        {(imgs as Image[]).map((img) => (
           <SwiperSlide className={styles.container_myswiper_slide} data-test-id='slide-mini'>
-            <img src={img} alt='' className={styles.container_myswiper_slide_img} />
+            <img src={img.url} alt='' className={styles.container_myswiper_slide_img} />
           </SwiperSlide>
         ))}
       </Swiper>

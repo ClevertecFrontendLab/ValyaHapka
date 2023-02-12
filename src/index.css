@@ -1,9 +1,10 @@
 html {
   overflow-x: hidden;
+  height: 100vh;
 }
 body {
   overflow-x: hidden;
-  min-height: 100%;
+  min-height: 100vh;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   font-family: 'Montserrat', sans-serif;
@@ -16,7 +17,14 @@ body {
   color: #363636;
   letter-spacing: 0.1px;
 }
-
+#root {
+  min-height: 100vh;
+}
+#root section {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
 *,
 *:before,
 *:after {
@@ -89,7 +97,4 @@ select {
   width: 65px;
   height: 86px;
   border: 2px solid #f78529;
-  border-radius: 3px;
-  /* border-image: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
-  border-image-slice: 1; */
 }

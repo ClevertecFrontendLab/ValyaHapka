@@ -11,19 +11,17 @@ import { store } from './redux/store';
 
 function App() {
   return (
-    <React.StrictMode>
-      <Provider store={store}>
-        <HashRouter>
-          <Routes>
-            <Route path='/' element={<MainPage />} />
-            <Route path='/:category' element={<MainPage />} />
-            <Route path='/books/:bookID' element={<BookPage />} />
-            <Route path='/rules' element={<Rules />} />
-            <Route path='/offer' element={<Rules />} />
-          </Routes>
-        </HashRouter>
-      </Provider>
-    </React.StrictMode>
+    <Provider store={store}>
+      <HashRouter>
+        <Routes>
+          <Route path='/' element={<MainPage />} />
+          <Route path='/:category' element={<MainPage />} />
+          <Route path='/books/:bookID' element={<BookPage />} />
+          <Route path='/rules' element={<Rules />} />
+          <Route path='/offer' element={<Rules />} />
+        </Routes>
+      </HashRouter>
+    </Provider>
   );
 }
 export default App;

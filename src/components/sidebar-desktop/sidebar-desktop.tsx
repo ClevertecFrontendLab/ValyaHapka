@@ -22,7 +22,7 @@ export const SidebarDesktop: React.FC<SidebarProps> = ({ toggleCategories, isOpe
   };
 
   return (
-    <section className={styles.sidebar}>
+    <aside className={isOpenCategories ? styles.sidebar_active : styles.sidebar}>
       <div className={styles.sidebar_title} data-test-id='navigation-showcase' onClick={toggleCategories}>
         <h3
           className={
@@ -91,6 +91,6 @@ export const SidebarDesktop: React.FC<SidebarProps> = ({ toggleCategories, isOpe
         <h2>Профиль</h2>
         <h2>Выход</h2>
       </div>
-    </section>
+    </aside>
   );
 };

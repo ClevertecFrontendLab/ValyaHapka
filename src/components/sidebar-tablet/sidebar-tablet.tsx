@@ -24,7 +24,7 @@ export const SidebarTablet: React.FC<SidebarProps> = ({ toggleCategories, isOpen
   };
 
   return (
-    <section className={isBurger ? styles.sidebar_active : styles.sidebar}>
+    <aside className={isBurger ? styles.sidebar_active : styles.sidebar}>
       <div className={styles.sidebar_title} data-test-id='burger-showcase' onClick={toggleCategories}>
         <h3
           className={
@@ -98,6 +98,6 @@ export const SidebarTablet: React.FC<SidebarProps> = ({ toggleCategories, isOpen
         <h2 onClick={() => dispatch(changeBurger(false))}>Профиль</h2>
         <h2 onClick={() => dispatch(changeBurger(false))}>Выход</h2>
       </div>
-    </section>
+    </aside>
   );
 };
