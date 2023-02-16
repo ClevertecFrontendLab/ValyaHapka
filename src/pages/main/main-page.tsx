@@ -1,6 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-no-useless-fragment */
 import React, { useEffect, useState } from 'react';
+import Lottie from 'lottie-react';
 
+import Loader from '../../assets/json/loader.json';
 import { Books } from '../../components/books';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
@@ -8,6 +11,7 @@ import { Navigation } from '../../components/navigation';
 import { RejectModal } from '../../components/reject-modal';
 import { Sidebar } from '../../components/sidebar';
 import { booksSelector, fetchBooks } from '../../redux/slices/books-slice';
+import { categoriesSelector, fetchCategories } from '../../redux/slices/category-slice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 
 import styles from './main-page.module.scss';
@@ -16,34 +20,54 @@ export const MainPage = () => {
   const [isOpenModal, setModal] = useState(true);
   const dispatch = useAppDispatch();
   const { status } = useAppSelector((state) => booksSelector(state));
+  const { statusCategories } = useAppSelector((state) => categoriesSelector(state));
 
   const closeModal = () => {
     setModal(false);
   };
 
   useEffect(() => {
-    const fetchBook = async () => {
+    const queryBooks = async () => {
       dispatch(fetchBooks());
     };
 
-    fetchBook();
+    queryBooks();
+
+    const queryCategories = async () => {
+      dispatch(fetchCategories());
+    };
+
+    queryCategories();
   }, [dispatch]);
 
   return (
     <section className={styles.main_page}>
       <Header />
       <main className={styles.main_content}>
-        <Sidebar />
-        {status === 'loaded' ? (
+        <div
+          className={status === 'loaded' || statusCategories === 'loaded' ? styles.loaded_data : styles.unloaded_data}
+        >
+          <Sidebar />
           <div className={styles.main_content_wrapper}>
             <Navigation />
             <Books />
           </div>
-        ) : status === 'error' && isOpenModal ? (
+        </div>
+        <div
+          className={
+            status === 'loading' || statusCategories === 'loading' ? styles.loading_data : styles.unloaded_data
+          }
+          data-test-id='loader'
+        >
+          <div className={styles.loading_data_blur} />
+          <Lottie animationData={Loader} />
+        </div>
+        <div
+          className={status === 'error' && isOpenModal ? styles.rejected_data : styles.unloaded_data}
+          data-test-id='error'
+        >
           <RejectModal closeModal={closeModal} />
-        ) : (
-          <React.Fragment />
-        )}
+        </div>
       </main>
       <Footer />
     </section>

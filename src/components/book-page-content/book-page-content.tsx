@@ -18,6 +18,7 @@ interface BookPageContentProps {
 
 export const BookPageContent: React.FC<BookPageContentProps> = ({ book }) => {
   const [width, setWidth] = useState(window.innerWidth);
+  const { status } = useAppSelector((state) => activeBookSelector(state));
 
   const onChangeWidth = useCallback(() => setWidth(window.innerWidth), []);
 
@@ -41,7 +42,7 @@ export const BookPageContent: React.FC<BookPageContentProps> = ({ book }) => {
                 ) : (
                   <div className={styles.book_wrapper_content_images_img}>
                     <img
-                      src={book.images[0].url}
+                      src={`https://strapi.cleverland.by${book.images[0].url}`}
                       alt={book.title}
                       className={styles.book_wrapper_content_images_img_bookImg}
                       data-test-id='slide-big'
@@ -66,8 +67,10 @@ export const BookPageContent: React.FC<BookPageContentProps> = ({ book }) => {
                   </span>
                 ) : (
                   <React.Fragment>
-                    {/* <span>{(book.authors as string[])[0]},</span> */}
-                    <span>{/* {(book.authors as string[])[1]}, <span> {book.issueYear}</span> */}</span>
+                    <span>{status === 'loaded' && (book.authors as string[])[0]},</span>
+                    <span>
+                      {status === 'loaded' && (book.authors as string[])[1]}, <span> {book.issueYear}</span>
+                    </span>
                   </React.Fragment>
                 )}
               </div>
@@ -116,9 +119,9 @@ export const BookPageContent: React.FC<BookPageContentProps> = ({ book }) => {
                   </span>
                 ) : (
                   <React.Fragment>
-                    <span>{(book.authors as string[])[0]},</span>{' '}
+                    <span>{status === 'loaded' && (book.authors as string[])[0]},</span>{' '}
                     <span>
-                      {(book.authors as string[])[1]}, <span> {book.issueYear}</span>
+                      {status === 'loaded' && (book.authors as string[])[1]}, <span> {book.issueYear}</span>
                     </span>
                   </React.Fragment>
                 )}

@@ -22,8 +22,10 @@ export const Review: React.FC<ReviewProps> = React.memo(({ comment }) => {
         <div className={styles.reviews_block_feedback_person}>
           <img src={avatar} alt='' />
           <div className={styles.reviews_block_feedback_person_text}>
-            <span>Валентин Хапка</span>
-            <span>20 июня 2018</span>
+            <span>
+              {comment.user.firstName} {comment.user.lastName}
+            </span>
+            <span>{comment.createdAt}</span>
           </div>
         </div>
         {comment.rating && (
@@ -32,37 +34,7 @@ export const Review: React.FC<ReviewProps> = React.memo(({ comment }) => {
             {inactiveStars}
           </div>
         )}
-      </li>
-      <li className={styles.reviews_block_feedback}>
-        <div className={styles.reviews_block_feedback_person}>
-          <img src={avatar} alt='' />
-          <div className={styles.reviews_block_feedback_person_text}>
-            <span>Валентин Хапка</span>
-            <span>20 июня 2018</span>
-          </div>
-        </div>
-        {comment.rating && (
-          <div className={styles.rank_stars}>
-            {activeStars}
-            {inactiveStars}
-          </div>
-        )}
-        <p>{comment.text}</p>
-      </li>
-      <li className={styles.reviews_block_feedback}>
-        <div className={styles.reviews_block_feedback_person}>
-          <img src={avatar} alt='' />
-          <div className={styles.reviews_block_feedback_person_text}>
-            <span>Валентин Хапка</span>
-            <span>20 июня 2018</span>
-          </div>
-        </div>
-        {comment.rating && (
-          <div className={styles.rank_stars}>
-            {activeStars}
-            {inactiveStars}
-          </div>
-        )}
+        {comment.text && <p>{comment.text}</p>}
       </li>
     </ul>
   );

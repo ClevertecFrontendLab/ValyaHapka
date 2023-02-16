@@ -9,6 +9,7 @@ import activeStar from '../../assets/img/active_star.svg';
 import catIcon from '../../assets/img/cat_icon.svg';
 import inactiveStar from '../../assets/img/star.svg';
 import { IBooks } from '../../interfaces/books-fetch';
+import { categoriesSelector } from '../../redux/slices/category-slice';
 import { viewSelector } from '../../redux/slices/view-slice';
 import { useAppSelector } from '../../redux/store';
 
@@ -18,13 +19,22 @@ import listViewStyles from './book-card-list.module.scss';
 export const BookCard: React.FC<IBooks> = React.memo(
   ({ title, image, booking, authors, issueYear, rating, id, delivery }) => {
     const view = useAppSelector((state) => viewSelector(state));
+    const { activeCategory } = useAppSelector((state) => categoriesSelector(state));
 
     const activeStars = [...new Array(Math.floor(rating as number))].map(() => <img src={activeStar} alt='' />);
     const inactiveStars = [...new Array(5 - Math.floor(rating as number))].map(() => <img src={inactiveStar} alt='' />);
 
-    const path = `/books/${id}`;
+    const path = `/books/${activeCategory.path}/${id}`;
 
     const img = `https://strapi.cleverland.by${image?.url}`;
+
+    const changedTitle = (bookTitle: string) => {
+      if (bookTitle.length >= 50) {
+        return bookTitle.split('', 47).join('').padEnd(50, '.');
+      }
+
+      return bookTitle;
+    };
 
     const handleClick = (e: React.MouseEvent) => {
       e.preventDefault();
@@ -36,9 +46,9 @@ export const BookCard: React.FC<IBooks> = React.memo(
           <div className={cardStyles.card} data-test-id='card'>
             <div className={cardStyles.card_img}>
               {image ? (
-                <img src={img} alt={title} className={cardStyles.card_img_bookImg} />
+                <img src={img} alt='' className={cardStyles.card_img_bookImg} />
               ) : (
-                <img src={catIcon} alt={title} className={cardStyles.card_img_cat} />
+                <img src={catIcon} alt='' className={cardStyles.card_img_cat} />
               )}
             </div>
 
@@ -53,7 +63,7 @@ export const BookCard: React.FC<IBooks> = React.memo(
               )}
             </div>
             <div className={cardStyles.card_info}>
-              <h2>{title}</h2>
+              <h2>{changedTitle(title)}</h2>
               {(authors as string[]).length === 1 ? (
                 <span>
                   {(authors as string[])[0]}, <span>{issueYear}</span>
@@ -95,9 +105,9 @@ export const BookCard: React.FC<IBooks> = React.memo(
         <div className={listViewStyles.card}>
           <div className={listViewStyles.card_img}>
             {image ? (
-              <img src={img} alt={title} className={listViewStyles.card_img_bookImg} />
+              <img src={img} alt='' className={listViewStyles.card_img_bookImg} />
             ) : (
-              <img src={catIcon} alt={title} />
+              <img src={catIcon} alt='' />
             )}
           </div>
           <div className={listViewStyles.card_content}>

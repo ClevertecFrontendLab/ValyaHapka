@@ -31,7 +31,7 @@ export const Slider: React.FC<SwiperProps> = React.memo(({ imgs }) => {
       >
         {(imgs as Image[]).map((img) => (
           <SwiperSlide className={styles.container_myswiper_slide}>
-            <img src={img.url} alt='' className={styles.container_myswiper_bookImg} />
+            <img src={`https://strapi.cleverland.by${img.url}`} alt='' className={styles.container_myswiper_bookImg} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -47,7 +47,11 @@ export const Slider: React.FC<SwiperProps> = React.memo(({ imgs }) => {
       >
         {(imgs as Image[]).map((img) => (
           <SwiperSlide className={styles.container_myswiper_slide} data-test-id='slide-mini'>
-            <img src={img.url} alt='' className={styles.container_myswiper_slide_img} />
+            <img
+              src={`https://strapi.cleverland.by${img.url}`}
+              alt=''
+              className={styles.container_myswiper_slide_img}
+            />
           </SwiperSlide>
         ))}
       </Swiper>

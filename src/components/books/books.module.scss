@@ -1,5 +1,5 @@
 .books_bricks {
-  display: grid;
+  display: grid !important;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px 21.5px;
 }
@@ -10,8 +10,9 @@
 }
 @media (max-width: 1439px) {
   .books_bricks {
-    display: flex;
+    display: flex !important;
     flex-wrap: wrap;
+    flex-direction: row !important;
     gap: 24px 21.5px;
   }
 }
@@ -29,7 +30,7 @@
 
 @media (max-width: 540px) {
   .books_bricks {
-    flex-direction: column;
+    flex-direction: column !important;
     align-items: center;
   }
 }

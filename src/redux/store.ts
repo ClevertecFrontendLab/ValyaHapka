@@ -4,11 +4,11 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import activeBookReducer from './slices/active-book-slice';
 import booksReducer from './slices/books-slice';
-import categoryReducer from './slices/category-slice';
+import categoriesReducer from './slices/category-slice';
 import viewReducer from './slices/view-slice';
 
 export const store = configureStore({
-  reducer: { view: viewReducer, category: categoryReducer, books: booksReducer, activeBook: activeBookReducer },
+  reducer: { view: viewReducer, categories: categoriesReducer, books: booksReducer, activeBook: activeBookReducer },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

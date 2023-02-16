@@ -5,7 +5,7 @@ export type Image = {
 type Booking = {
   id: number;
   order: boolean;
-  dateOrder: Date | null;
+  dateOrder: string | null;
   customerId: number | null;
   customerFirstName: string | null;
   customerLastName: string | null;
@@ -14,8 +14,8 @@ type Booking = {
 type Delivery = {
   id: number;
   handed: boolean;
-  dateHandedFrom: Date | null;
-  dateHandedTo: Date | null;
+  dateHandedFrom: string | null;
+  dateHandedTo: string | null;
   recipientId: number | null;
   recipientFirstName: string | null;
   recipientLastName: string | null;
@@ -37,7 +37,7 @@ export type Comments = {
   id: number;
   rating: number | null;
   text: string | null;
-  createdAt: Date;
+  createdAt: string;
   user: UserComment;
 };
 

@@ -18,7 +18,7 @@ export const SliderTablet: React.FC<SwiperProps> = React.memo(({ imgs }) => (
     <Swiper modules={[Pagination]} pagination={true} className={styles.container_myswiper} data-test-id='slide-big'>
       {(imgs as Image[]).map((img) => (
         <SwiperSlide className={styles.container_myswiper_slide}>
-          <img src={img.url} alt='' className={styles.container_myswiper_slide_img} />
+          <img src={`https://strapi.cleverland.by${img.url}`} alt='' className={styles.container_myswiper_slide_img} />
         </SwiperSlide>
       ))}
     </Swiper>

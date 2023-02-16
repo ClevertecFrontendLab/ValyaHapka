@@ -1,11 +1,10 @@
 .book {
-  &_loading {
-    margin-left: 165px;
-    margin-right: 165px;
+  main {
+    margin-top: 20px;
   }
   margin-left: 165px;
   margin-right: 165px;
-  min-height: 100% !important;
+  min-height: 100vh !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 42px !important;
@@ -316,7 +315,6 @@
         hr {
           margin-right: auto;
         }
-        align-items: center;
       }
     }
   }
@@ -332,5 +330,45 @@
   .book {
     margin-left: 16px;
     margin-right: 16px;
+  }
+}
+.loaded_data {
+  display: block;
+}
+.loading_data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &_blur {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    backdrop-filter: blur(10px);
+    background-color: rgba(54, 54, 54, 0.3);
+  }
+  div {
+    svg {
+      position: relative;
+      z-index: 3;
+    }
+  }
+}
+.rejected_data {
+  display: flex;
+}
+.unloaded_data {
+  display: none;
+  justify-content: center;
+}
+@media (max-width: 1240px) {
+  .loaded_data {
+    display: block;
+  }
+}
+@media (max-width: 540px) {
+  .loaded_data {
+    justify-content: center;
   }
 }

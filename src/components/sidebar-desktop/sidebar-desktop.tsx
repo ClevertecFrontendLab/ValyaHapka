@@ -5,20 +5,29 @@ import React from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import openSidebarImg from '../../assets/img/stroke.svg';
-import categories from '../../assets/json/categories.json';
 import { SidebarProps } from '../../interfaces/sidebar-props';
-import { categorySelector, changeCategory } from '../../redux/slices/category-slice';
+import { categoriesSelector, changeCategory } from '../../redux/slices/category-slice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 
 import styles from './sidebar-desktop.module.scss';
 
-export const SidebarDesktop: React.FC<SidebarProps> = ({ toggleCategories, isOpenCategories, pathnameValidation }) => {
+export const SidebarDesktop: React.FC<SidebarProps> = ({
+  toggleCategories,
+  isOpenCategories,
+  pathnameValidation,
+  categories,
+}) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const reduxCategory = useAppSelector((state) => categorySelector(state));
+  const { activeCategory } = useAppSelector((state) => categoriesSelector(state));
 
-  const changeReduxCategory = (e: React.MouseEvent) => {
-    dispatch(changeCategory((e.target as HTMLDivElement).outerText));
+  const changeReduxCategory = (e: React.MouseEvent, p: string) => {
+    const category = {
+      name: (e.target as HTMLDivElement).outerText,
+      path: p,
+    };
+
+    dispatch(changeCategory(category));
   };
 
   return (
@@ -38,30 +47,29 @@ export const SidebarDesktop: React.FC<SidebarProps> = ({ toggleCategories, isOpe
       </div>
 
       <ul className={isOpenCategories ? styles.sidebar_list : styles.sidebar_list_hide}>
-        <NavLink to='/allBooks' data-test-id='navigation-books'>
+        <NavLink to='/all' data-test-id='navigation-books'>
           <h5
             className={
-              reduxCategory === 'Все книги' && (pathnameValidation() || location.pathname === '/')
+              activeCategory.name === 'Все книги' && (pathnameValidation() || location.pathname === '/')
                 ? styles.sidebar_list_name_active
                 : styles.sidebar_list_name
             }
-            onClick={changeReduxCategory}
+            onClick={(e) => changeReduxCategory(e, 'all')}
           >
             Все книги
           </h5>
         </NavLink>
         {categories.slice(1).map((c) => (
-          <li key={c.name} onClick={changeReduxCategory}>
-            <NavLink to={`/${c.route}`}>
+          <li key={c.name} onClick={(e) => changeReduxCategory(e, c.path)}>
+            <NavLink to={`/${c.path}`}>
               <h5
                 className={
-                  reduxCategory === `${c.name}${c.value}` && pathnameValidation()
+                  activeCategory.name === `${c.name}` && pathnameValidation()
                     ? styles.sidebar_list_name_active
                     : styles.sidebar_list_name
                 }
               >
                 {c.name}
-                <span>{c.value}</span>
               </h5>
             </NavLink>
           </li>

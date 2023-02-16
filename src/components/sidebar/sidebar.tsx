@@ -6,18 +6,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import categories from '../../assets/json/categories.json';
+import { categoriesSelector, fetchCategories } from '../../redux/slices/category-slice';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { SidebarDesktop } from '../sidebar-desktop';
 import { SidebarTablet } from '../sidebar-tablet';
 
 export const Sidebar = () => {
+  const dispatch = useAppDispatch();
+  const { categories } = useAppSelector((state) => categoriesSelector(state));
   const location = useLocation();
   const [isOpenCategories, setIsOpenCategories] = useState(true);
   const [width, setWidth] = useState(window.innerWidth);
 
   const onChangeWidth = useCallback(() => setWidth(window.innerWidth), []);
 
-  const pathnameValidation = useCallback(() => categories.some((c) => location.pathname === `/${c.route}`), [location]);
+  const pathnameValidation = useCallback(
+    () => categories.some((c) => location.pathname === `/${c.path}`),
+    [categories, location.pathname]
+  );
 
   const toggleCategories = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -46,12 +52,14 @@ export const Sidebar = () => {
           toggleCategories={toggleCategories}
           isOpenCategories={isOpenCategories}
           pathnameValidation={pathnameValidation}
+          categories={categories}
         />
       ) : (
         <SidebarTablet
           toggleCategories={toggleCategories}
           isOpenCategories={isOpenCategories}
           pathnameValidation={pathnameValidation}
+          categories={categories}
         />
       )}
     </React.Fragment>

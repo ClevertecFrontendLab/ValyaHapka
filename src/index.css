@@ -3,6 +3,7 @@ html {
   height: 100vh;
 }
 body {
+  position: relative;
   overflow-x: hidden;
   min-height: 100vh;
   scroll-behavior: smooth;
@@ -13,17 +14,23 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #ffffff;
   color: #363636;
   letter-spacing: 0.1px;
 }
 #root {
+  position: relative;
   min-height: 100vh;
 }
 #root section {
   min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex-grow: 1;
+}
+footer {
+  flex-shrink: 0;
 }
 *,
 *:before,
