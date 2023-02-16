@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import openSidebarImg from '../../assets/img/stroke.svg';
@@ -31,6 +31,14 @@ export const SidebarTablet: React.FC<SidebarProps> = ({
 
     dispatch(changeCategory(category));
   };
+
+  useEffect(() => {
+    if (isBurger) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'auto';
+    }
+  });
 
   return (
     <aside className={isBurger ? styles.sidebar_active : styles.sidebar}>
@@ -64,7 +72,7 @@ export const SidebarTablet: React.FC<SidebarProps> = ({
             Все книги
           </h5>
         </NavLink>
-        {categories.slice(1).map((c) => (
+        {categories.map((c) => (
           <li key={c.name} onClick={(e) => changeReduxCategory(e, c.path)}>
             <NavLink to={`/${c.path}`}>
               <h5

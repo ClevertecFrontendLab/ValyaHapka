@@ -16,16 +16,10 @@ export const Header = () => {
   const dispatch = useAppDispatch();
   const isBurger = useAppSelector((state) => burgerSelector(state));
 
-  // const closeMenu = () => {
-  //   dispatch(changeBurger(false));
-  //   window.removeEventListener('click', closeMenu);
-  // };
-
   const toggleMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
 
     dispatch(changeBurger(!isBurger));
-    // window.addEventListener('click', closeMenu);
   };
 
   return (

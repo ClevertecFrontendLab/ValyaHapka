@@ -43,29 +43,23 @@ export const MainPage = () => {
   return (
     <section className={styles.main_page}>
       <Header />
-      <main className={styles.main_content}>
-        <div
-          className={status === 'loaded' || statusCategories === 'loaded' ? styles.loaded_data : styles.unloaded_data}
-        >
+      <main className={status === 'error' ? styles.main_content_rejected : styles.main_content}>
+        <div className={styles.main_content_sidebarNcontent}>
           <Sidebar />
-          <div className={styles.main_content_wrapper}>
+          <div
+            className={`${styles.main_content_wrapper} ${
+              status === 'loaded' ? styles.loaded_data : styles.unloaded_data
+            }`}
+          >
             <Navigation />
             <Books />
           </div>
         </div>
-        <div
-          className={
-            status === 'loading' || statusCategories === 'loading' ? styles.loading_data : styles.unloaded_data
-          }
-          data-test-id='loader'
-        >
+        <div className={status === 'loading' ? styles.loading_data : styles.unloaded_data} data-test-id='loader'>
           <div className={styles.loading_data_blur} />
           <Lottie animationData={Loader} />
         </div>
-        <div
-          className={status === 'error' && isOpenModal ? styles.rejected_data : styles.unloaded_data}
-          data-test-id='error'
-        >
+        <div className={status === 'error' ? styles.rejected_data : styles.unloaded_data} data-test-id='error'>
           <RejectModal closeModal={closeModal} />
         </div>
       </main>

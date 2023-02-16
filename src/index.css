@@ -1,11 +1,11 @@
 html {
   overflow-x: hidden;
-  height: 100vh;
+  height: 100%;
 }
 body {
   position: relative;
   overflow-x: hidden;
-  min-height: 100vh;
+  height: 100%;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   font-family: 'Montserrat', sans-serif;

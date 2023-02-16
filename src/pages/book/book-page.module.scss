@@ -357,6 +357,8 @@
 }
 .rejected_data {
   display: flex;
+  position: absolute;
+  width: 78vw;
 }
 .unloaded_data {
   display: none;

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import openSidebarImg from '../../assets/img/stroke.svg';
@@ -19,7 +19,7 @@ export const SidebarDesktop: React.FC<SidebarProps> = ({
 }) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const { activeCategory } = useAppSelector((state) => categoriesSelector(state));
+  const { activeCategory, statusCategories } = useAppSelector((state) => categoriesSelector(state));
 
   const changeReduxCategory = (e: React.MouseEvent, p: string) => {
     const category = {
@@ -43,10 +43,14 @@ export const SidebarDesktop: React.FC<SidebarProps> = ({
           Витрина книг
         </h3>
 
-        <img src={openSidebarImg} alt='' className={isOpenCategories ? styles.sidebar_title_open : ''} />
+        {statusCategories === 'loaded' && (
+          <img src={openSidebarImg} alt='' className={isOpenCategories ? styles.sidebar_title_open : ''} />
+        )}
       </div>
 
-      <ul className={isOpenCategories ? styles.sidebar_list : styles.sidebar_list_hide}>
+      <ul
+        className={isOpenCategories && statusCategories === 'loaded' ? styles.sidebar_list : styles.sidebar_list_hide}
+      >
         <NavLink to='/all' data-test-id='navigation-books'>
           <h5
             className={
@@ -59,7 +63,7 @@ export const SidebarDesktop: React.FC<SidebarProps> = ({
             Все книги
           </h5>
         </NavLink>
-        {categories.slice(1).map((c) => (
+        {categories.map((c) => (
           <li key={c.name} onClick={(e) => changeReduxCategory(e, c.path)}>
             <NavLink to={`/${c.path}`}>
               <h5
