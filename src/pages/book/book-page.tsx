@@ -46,12 +46,12 @@ export const BookPage = () => {
     <section className={styles.book}>
       <Header />
       <main>
-        <div className={status === 'loaded' ? styles.loaded_data : styles.unloaded_data}>
-          <div className={styles.book_pathline}>
-            <div className={styles.book_pathline_block}>
-              <span>{`${activeCategory.name} / ${book.title}`}</span>
-            </div>
+        <div className={styles.book_pathline}>
+          <div className={styles.book_pathline_block}>
+            <span>{`${activeCategory.name} / ${book.title}`}</span>
           </div>
+        </div>
+        <div className={status === 'loaded' ? styles.loaded_data : styles.unloaded_data}>
           <main>
             <BookPageContent book={book as FetchedBook} />
             <div className={styles.book_data}>

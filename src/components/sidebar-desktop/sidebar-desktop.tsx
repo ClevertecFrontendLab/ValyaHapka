@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import openSidebarImg from '../../assets/img/stroke.svg';

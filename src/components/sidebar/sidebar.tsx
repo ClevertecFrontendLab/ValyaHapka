@@ -6,13 +6,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { categoriesSelector, fetchCategories } from '../../redux/slices/category-slice';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { categoriesSelector } from '../../redux/slices/category-slice';
+import { useAppSelector } from '../../redux/store';
 import { SidebarDesktop } from '../sidebar-desktop';
 import { SidebarTablet } from '../sidebar-tablet';
 
 export const Sidebar = () => {
-  const dispatch = useAppDispatch();
   const { categories } = useAppSelector((state) => categoriesSelector(state));
   const location = useLocation();
   const [isOpenCategories, setIsOpenCategories] = useState(true);
