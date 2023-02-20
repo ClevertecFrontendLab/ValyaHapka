@@ -5,4 +5,5 @@ export interface SidebarProps {
   isOpenCategories: boolean;
   pathnameValidation: () => boolean;
   categories: Category[];
+  changeReduxCategory: (e: React.MouseEvent, p: string) => void;
 }

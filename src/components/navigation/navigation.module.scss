@@ -132,6 +132,9 @@
         letter-spacing: 0.1px;
         color: #a7a7a7;
       }
+      img {
+        cursor: pointer;
+      }
     }
     @media (max-width: 767px) {
       &_sort {

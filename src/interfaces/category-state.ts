@@ -5,7 +5,7 @@ export type Category = {
   path: string;
   name: string;
 };
-type ActiveCategory = {
+export type ActiveCategory = {
   name: string;
   path: string;
 };

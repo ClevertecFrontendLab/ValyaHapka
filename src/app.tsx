@@ -2,7 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { Provider } from 'react-redux';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { BookPage } from './pages/book';
 import { MainPage } from './pages/main';
@@ -14,11 +14,11 @@ function App() {
     <Provider store={store}>
       <HashRouter>
         <Routes>
-          <Route path='/' element={<MainPage />} />
           <Route path='/:category' element={<MainPage />} />
           <Route path='/books/:category/:bookID' element={<BookPage />} />
           <Route path='/rules' element={<Rules />} />
           <Route path='/offer' element={<Rules />} />
+          <Route path='*' element={<Navigate to='/all' replace={true} />} />
         </Routes>
       </HashRouter>
     </Provider>

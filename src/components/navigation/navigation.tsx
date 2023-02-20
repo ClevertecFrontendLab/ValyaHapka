@@ -8,11 +8,13 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import closeSearchImg from '../../assets/img/active-burger-mobile.svg';
 import inactiveRowsViewImg from '../../assets/img/Icon_Action.svg';
-import sortImgAsc from '../../assets/img/icon-sort-ascending.svg';
+import sortImgDesc from '../../assets/img/icon-sort-descending.svg';
 import activeSquareViewImg from '../../assets/img/icon-square-four.svg';
 import activeRowsViewImg from '../../assets/img/list_img_active.svg';
 import searchImg from '../../assets/img/search_icon.svg';
+import sortImgAsc from '../../assets/img/sort-asc.svg';
 import inactiveSquareViewImg from '../../assets/img/square_img_inactive.svg';
+import { booksSelector, setReduxSearchValue, sortBooks } from '../../redux/slices/books-slice';
 import { changeView, viewSelector } from '../../redux/slices/view-slice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 
@@ -20,9 +22,10 @@ import styles from './navigation.module.scss';
 
 export const Navigation = () => {
   const view = useAppSelector((state) => viewSelector(state));
+  const { sortTypeDesc } = useAppSelector((state) => booksSelector(state));
   const dispatch = useAppDispatch();
   const [width, setWidth] = useState(window.innerWidth);
-  const [value, setValue] = useState('');
+  const [localvalue, setLocalValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const [isSearch, setSearch] = useState(false);
 
@@ -33,12 +36,15 @@ export const Navigation = () => {
     (inputRef.current as HTMLInputElement).focus();
   };
 
-  const closeInput = () => {
+  const closeInput = useCallback(() => {
     setSearch(false);
-  };
+    setLocalValue('');
+    dispatch(setReduxSearchValue(''));
+  }, [dispatch]);
 
   const updateValues = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+    setLocalValue(event.target.value);
+    dispatch(setReduxSearchValue(event.target.value));
   };
 
   useEffect(() => {
@@ -48,10 +54,6 @@ export const Navigation = () => {
       window.removeEventListener('resize', onChangeWidth);
     };
   }, [onChangeWidth]);
-
-  useEffect(() => {
-    setValue('');
-  }, []);
 
   return (
     <nav className={styles.navigation} data-test-id='burger-navigation'>
@@ -75,7 +77,7 @@ export const Navigation = () => {
             className={isSearch ? styles.navigation_filters_search_inp_active : styles.navigation_filters_search_inp}
             placeholder={width >= 768 ? 'Поиск книги или автора...' : ''}
             ref={inputRef}
-            value={value}
+            value={localvalue}
             onChange={updateValues}
             onFocus={() => setSearch(true)}
             onBlur={() => setSearch(false)}
@@ -84,7 +86,9 @@ export const Navigation = () => {
             src={closeSearchImg}
             alt=''
             className={
-              isSearch ? styles.navigation_filters_search_close_active : styles.navigation_filters_search_close
+              (localvalue && width > 767) || isSearch
+                ? styles.navigation_filters_search_close_active
+                : styles.navigation_filters_search_close
             }
             onClick={closeInput}
             data-test-id='button-search-close'
@@ -92,7 +96,12 @@ export const Navigation = () => {
         </div>
         {!isSearch || width > 767 ? (
           <div className={styles.navigation_filters_sort}>
-            <img src={sortImgAsc} alt='' className={styles.search_icon} />
+            <img
+              src={sortTypeDesc ? sortImgDesc : sortImgAsc}
+              alt=''
+              className={styles.search_icon}
+              onClick={() => dispatch(sortBooks(!sortTypeDesc))}
+            />
             <h6>По рейтингу</h6>
           </div>
         ) : (

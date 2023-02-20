@@ -6,7 +6,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import openSidebarImg from '../../assets/img/stroke.svg';
 import { SidebarProps } from '../../interfaces/sidebar-props';
-import { categoriesSelector, changeCategory } from '../../redux/slices/category-slice';
+import { categoriesSelector } from '../../redux/slices/category-slice';
 import { burgerSelector, changeBurger } from '../../redux/slices/view-slice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 
@@ -17,20 +17,12 @@ export const SidebarTablet: React.FC<SidebarProps> = ({
   isOpenCategories,
   pathnameValidation,
   categories,
+  changeReduxCategory,
 }) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const isBurger = useAppSelector((state) => burgerSelector(state));
   const { activeCategory } = useAppSelector((state) => categoriesSelector(state));
-
-  const changeReduxCategory = (e: React.MouseEvent, p: string) => {
-    const category = {
-      name: (e.target as HTMLDivElement).outerText,
-      path: p,
-    };
-
-    dispatch(changeCategory(category));
-  };
 
   useEffect(() => {
     if (isBurger) {

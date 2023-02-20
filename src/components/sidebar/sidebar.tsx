@@ -6,12 +6,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { categoriesSelector } from '../../redux/slices/category-slice';
-import { useAppSelector } from '../../redux/store';
+import { categoriesSelector, changeCategory } from '../../redux/slices/category-slice';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { SidebarDesktop } from '../sidebar-desktop';
 import { SidebarTablet } from '../sidebar-tablet';
 
 export const Sidebar = () => {
+  const dispatch = useAppDispatch();
   const { categories } = useAppSelector((state) => categoriesSelector(state));
   const location = useLocation();
   const [isOpenCategories, setIsOpenCategories] = useState(true);
@@ -19,8 +20,17 @@ export const Sidebar = () => {
 
   const onChangeWidth = useCallback(() => setWidth(window.innerWidth), []);
 
+  const changeReduxCategory = (e: React.MouseEvent, p: string) => {
+    const category = {
+      name: (e.target as HTMLDivElement).outerText,
+      path: p,
+    };
+
+    dispatch(changeCategory(category));
+  };
+
   const pathnameValidation = useCallback(
-    () => categories.some((c) => location.pathname === `/${c.path}`),
+    () => categories.some((c) => location.pathname === `/${c.path}` || location.pathname === '/all'),
     [categories, location.pathname]
   );
 
@@ -31,7 +41,7 @@ export const Sidebar = () => {
   };
 
   useEffect(() => {
-    if (pathnameValidation() || location.pathname !== '/') {
+    if (pathnameValidation()) {
       setIsOpenCategories(false);
     }
   }, [location.pathname, pathnameValidation]);
@@ -44,6 +54,25 @@ export const Sidebar = () => {
     };
   }, [onChangeWidth]);
 
+  useEffect(() => {
+    function findNameByPath() {
+      const foundCategory = categories.find((c) => `/${c.path}` === location.pathname);
+
+      if (foundCategory !== undefined) {
+        return foundCategory.name;
+      }
+
+      return 'Все книги';
+    }
+
+    const category = {
+      name: findNameByPath(),
+      path: location.pathname.slice(1),
+    };
+
+    dispatch(changeCategory(category));
+  }, [categories, dispatch, location.pathname]);
+
   return (
     <React.Fragment>
       {width >= 1240 ? (
@@ -52,6 +81,7 @@ export const Sidebar = () => {
           isOpenCategories={isOpenCategories}
           pathnameValidation={pathnameValidation}
           categories={categories}
+          changeReduxCategory={changeReduxCategory}
         />
       ) : (
         <SidebarTablet
@@ -59,6 +89,7 @@ export const Sidebar = () => {
           isOpenCategories={isOpenCategories}
           pathnameValidation={pathnameValidation}
           categories={categories}
+          changeReduxCategory={changeReduxCategory}
         />
       )}
     </React.Fragment>
