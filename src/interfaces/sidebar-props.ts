@@ -1,3 +1,4 @@
+import { IBooks } from './books-fetch';
 import { Category } from './category-state';
 
 export interface SidebarProps {
@@ -5,5 +6,6 @@ export interface SidebarProps {
   isOpenCategories: boolean;
   pathnameValidation: () => boolean;
   categories: Category[];
-  changeReduxCategory: (e: React.MouseEvent, p: string) => void;
+  changeReduxCategory: (c: string, p: string) => void;
+  booksInCategories: (category: Category) => IBooks[];
 }

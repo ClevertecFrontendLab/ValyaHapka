@@ -18,6 +18,7 @@ export const SidebarTablet: React.FC<SidebarProps> = ({
   pathnameValidation,
   categories,
   changeReduxCategory,
+  booksInCategories,
 }) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
@@ -52,29 +53,29 @@ export const SidebarTablet: React.FC<SidebarProps> = ({
         className={isOpenCategories ? styles.sidebar_list : styles.sidebar_list_hide}
         onClick={() => dispatch(changeBurger(false))}
       >
-        <NavLink to='/allBooks' data-test-id='burger-books'>
+        <NavLink to='/books/all' data-test-id='burger-books'>
           <h5
             className={
               activeCategory.name === 'Все книги' && (pathnameValidation() || location.pathname === '/')
                 ? styles.sidebar_list_name_active
                 : styles.sidebar_list_name
             }
-            onClick={(e) => changeReduxCategory(e, 'all')}
+            onClick={() => changeReduxCategory('Все книги', 'all')}
           >
             Все книги
           </h5>
         </NavLink>
         {categories.map((c) => (
-          <li key={c.name} onClick={(e) => changeReduxCategory(e, c.path)}>
-            <NavLink to={`/${c.path}`}>
+          <li key={c.name} onClick={() => changeReduxCategory(c.name, c.path)} data-test-id={`burger-${c.name}`}>
+            <NavLink to={`/books/${c.path}`}>
               <h5
                 className={
-                  activeCategory.name === `${c.name}` && pathnameValidation()
+                  activeCategory.name === c.name && pathnameValidation()
                     ? styles.sidebar_list_name_active
                     : styles.sidebar_list_name
                 }
               >
-                {c.name}
+                {c.name} <span data-test-id={`burger-book-count-for-${c.name}`}>{booksInCategories(c).length}</span>
               </h5>
             </NavLink>
           </li>

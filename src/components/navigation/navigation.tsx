@@ -6,6 +6,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import activeSearchImg from '../../assets/img/active_search.svg';
 import closeSearchImg from '../../assets/img/active-burger-mobile.svg';
 import inactiveRowsViewImg from '../../assets/img/Icon_Action.svg';
 import sortImgDesc from '../../assets/img/icon-sort-descending.svg';
@@ -59,7 +60,13 @@ export const Navigation = () => {
     <nav className={styles.navigation} data-test-id='burger-navigation'>
       <div className={styles.navigation_filters}>
         <div className={isSearch ? styles.navigation_filters_search_active : styles.navigation_filters_search}>
-          {!isSearch && width > 767 && <img src={searchImg} alt='' className={styles.navigation_filters_search_icon} />}
+          {width > 767 && (
+            <img
+              src={isSearch ? activeSearchImg : searchImg}
+              alt=''
+              className={styles.navigation_filters_search_icon}
+            />
+          )}
           <button
             className={
               isSearch ? styles.navigation_filters_search_button_hide : styles.navigation_filters_search_button
@@ -101,6 +108,7 @@ export const Navigation = () => {
               alt=''
               className={styles.search_icon}
               onClick={() => dispatch(sortBooks(!sortTypeDesc))}
+              data-test-id='sort-rating-button'
             />
             <h6>По рейтингу</h6>
           </div>

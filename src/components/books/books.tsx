@@ -36,7 +36,10 @@ export const Books = () => {
       {items.map((book: IBooks) => (
         <BookCard {...book} key={book.id} />
       ))}
-      <h2 className={items.length > 0 ? styles.books_empty_text_none : styles.books_empty_text}>
+      <h2
+        className={items.length > 0 ? styles.books_empty_text_none : styles.books_empty_text}
+        data-test-id='search-result-not-found'
+      >
         По запросу ничего не найдено
       </h2>
     </section>

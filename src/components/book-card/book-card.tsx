@@ -2,13 +2,15 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-no-useless-fragment */
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
+import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
 
 import activeStar from '../../assets/img/active_star.svg';
 import catIcon from '../../assets/img/cat_icon.svg';
 import inactiveStar from '../../assets/img/star.svg';
 import { IBooks } from '../../interfaces/books-fetch';
+import { booksSelector } from '../../redux/slices/books-slice';
 import { categoriesSelector } from '../../redux/slices/category-slice';
 import { viewSelector } from '../../redux/slices/view-slice';
 import { useAppSelector } from '../../redux/store';
@@ -19,12 +21,13 @@ import listViewStyles from './book-card-list.module.scss';
 export const BookCard: React.FC<IBooks> = React.memo(
   ({ title, image, booking, authors, issueYear, rating, id, delivery }) => {
     const view = useAppSelector((state) => viewSelector(state));
+    const { searchValue } = useAppSelector((state) => booksSelector(state));
     const { activeCategory } = useAppSelector((state) => categoriesSelector(state));
 
     const activeStars = [...new Array(Math.floor(rating as number))].map(() => <img src={activeStar} alt='' />);
     const inactiveStars = [...new Array(5 - Math.floor(rating as number))].map(() => <img src={inactiveStar} alt='' />);
 
-    const path = `/books/${activeCategory.path}/${id}`;
+    const path = `/${activeCategory.path}/${id}`;
 
     const img = `https://strapi.cleverland.by${image?.url}`;
 
@@ -63,7 +66,16 @@ export const BookCard: React.FC<IBooks> = React.memo(
               )}
             </div>
             <div className={cardStyles.card_info}>
-              <h2>{changedTitle(title)}</h2>
+              <h2>
+                <Highlighter
+                  highlightClassName={cardStyles.card_info_title_highlighted}
+                  searchWords={[searchValue]}
+                  autoEscape={true}
+                  textToHighlight={changedTitle(title)}
+                  data-test-id='highlight-matches'
+                />
+              </h2>
+
               {(authors as string[]).length === 1 ? (
                 <span>
                   {(authors as string[])[0]}, <span>{issueYear}</span>
@@ -112,7 +124,15 @@ export const BookCard: React.FC<IBooks> = React.memo(
           </div>
           <div className={listViewStyles.card_content}>
             <div className={listViewStyles.card_content_info}>
-              <h2>{title}</h2>
+              <h2>
+                <Highlighter
+                  highlightClassName={cardStyles.card_info_title_highlighted}
+                  searchWords={[searchValue]}
+                  autoEscape={true}
+                  textToHighlight={title}
+                  data-test-id='highlight-matches'
+                />
+              </h2>
               {(authors as string[]).length === 1 ? (
                 <span>
                   {(authors as string[])[0]}, <span>{issueYear}</span>

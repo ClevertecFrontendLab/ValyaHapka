@@ -6,6 +6,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { Category } from '../../interfaces/category-state';
+import { booksSelector } from '../../redux/slices/books-slice';
 import { categoriesSelector, changeCategory } from '../../redux/slices/category-slice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { SidebarDesktop } from '../sidebar-desktop';
@@ -14,23 +16,29 @@ import { SidebarTablet } from '../sidebar-tablet';
 export const Sidebar = () => {
   const dispatch = useAppDispatch();
   const { categories } = useAppSelector((state) => categoriesSelector(state));
+  const { baseItems } = useAppSelector((state) => booksSelector(state));
   const location = useLocation();
   const [isOpenCategories, setIsOpenCategories] = useState(true);
   const [width, setWidth] = useState(window.innerWidth);
 
   const onChangeWidth = useCallback(() => setWidth(window.innerWidth), []);
 
-  const changeReduxCategory = (e: React.MouseEvent, p: string) => {
+  const booksInCategories = useCallback(
+    (category: Category) => baseItems.filter((book) => book.categories?.some((c) => c === category.name)),
+    [baseItems]
+  );
+
+  const changeReduxCategory = (n: string, p: string) => {
     const category = {
-      name: (e.target as HTMLDivElement).outerText,
-      path: p,
+      name: n,
+      path: `/books/${p}`,
     };
 
     dispatch(changeCategory(category));
   };
 
   const pathnameValidation = useCallback(
-    () => categories.some((c) => location.pathname === `/${c.path}` || location.pathname === '/all'),
+    () => categories.some((c) => location.pathname === `/books/${c.path}` || location.pathname === '/books/all'),
     [categories, location.pathname]
   );
 
@@ -56,7 +64,7 @@ export const Sidebar = () => {
 
   useEffect(() => {
     function findNameByPath() {
-      const foundCategory = categories.find((c) => `/${c.path}` === location.pathname);
+      const foundCategory = categories.find((c) => `/books/${c.path}` === location.pathname);
 
       if (foundCategory !== undefined) {
         return foundCategory.name;
@@ -82,6 +90,7 @@ export const Sidebar = () => {
           pathnameValidation={pathnameValidation}
           categories={categories}
           changeReduxCategory={changeReduxCategory}
+          booksInCategories={booksInCategories}
         />
       ) : (
         <SidebarTablet
@@ -90,6 +99,7 @@ export const Sidebar = () => {
           pathnameValidation={pathnameValidation}
           categories={categories}
           changeReduxCategory={changeReduxCategory}
+          booksInCategories={booksInCategories}
         />
       )}
     </React.Fragment>

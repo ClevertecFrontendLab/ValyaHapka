@@ -14,11 +14,11 @@ function App() {
     <Provider store={store}>
       <HashRouter>
         <Routes>
-          <Route path='/:category' element={<MainPage />} />
+          <Route path='/books/:category' element={<MainPage />} />
           <Route path='/books/:category/:bookID' element={<BookPage />} />
           <Route path='/rules' element={<Rules />} />
           <Route path='/offer' element={<Rules />} />
-          <Route path='*' element={<Navigate to='/all' replace={true} />} />
+          <Route path='*' element={<Navigate to='/books/all' replace={true} />} />
         </Routes>
       </HashRouter>
     </Provider>
