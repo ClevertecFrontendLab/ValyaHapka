@@ -66,16 +66,29 @@ export const SidebarTablet: React.FC<SidebarProps> = ({
           </h5>
         </NavLink>
         {categories.map((c) => (
-          <li key={c.name} onClick={() => changeReduxCategory(c.name, c.path)} data-test-id={`burger-${c.name}`}>
+          <li key={c.name} onClick={() => changeReduxCategory(c.name, c.path)}>
             <NavLink to={`/books/${c.path}`}>
-              <h5
-                className={
-                  activeCategory.name === c.name && pathnameValidation()
-                    ? styles.sidebar_list_name_active
-                    : styles.sidebar_list_name
-                }
-              >
-                {c.name} <span data-test-id={`burger-book-count-for-${c.name}`}>{booksInCategories(c).length}</span>
+              <h5>
+                <span
+                  className={
+                    activeCategory.name === c.name && pathnameValidation()
+                      ? styles.sidebar_list_name_active
+                      : styles.sidebar_list_name
+                  }
+                  data-test-id={`burger-${c.path}`}
+                >
+                  {c.name}
+                </span>{' '}
+                <span
+                  className={
+                    activeCategory.name === c.name && pathnameValidation()
+                      ? styles.sidebar_list_name_count_active
+                      : styles.sidebar_list_name_count
+                  }
+                  data-test-id={`burger-book-count-for-${c.path}`}
+                >
+                  {booksInCategories(c).length}
+                </span>
               </h5>
             </NavLink>
           </li>

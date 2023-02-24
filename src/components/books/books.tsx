@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { IBooks } from '../../interfaces/books-fetch';
+import { ActiveCategory, Category } from '../../interfaces/category-state';
 import { booksSelector, filterBooks, sortBooks } from '../../redux/slices/books-slice';
 import { categoriesSelector } from '../../redux/slices/category-slice';
 import { viewSelector } from '../../redux/slices/view-slice';
@@ -13,7 +14,7 @@ import styles from './books.module.scss';
 export const Books = () => {
   const dispatch = useAppDispatch();
   const view = useAppSelector((state) => viewSelector(state));
-  const { items, status, searchValue, sortTypeDesc } = useAppSelector((state) => booksSelector(state));
+  const { baseItems, items, status, searchValue, sortTypeDesc } = useAppSelector((state) => booksSelector(state));
   const { activeCategory } = useAppSelector((state) => categoriesSelector(state));
 
   useEffect(() => {
@@ -23,6 +24,16 @@ export const Books = () => {
     }
   }, [activeCategory.name, dispatch, status, searchValue, sortTypeDesc]);
 
+  const booksInActiveCategory = useCallback(
+    (category: ActiveCategory) => baseItems.filter((book) => book.categories?.some((c) => c === category.name)),
+    [baseItems]
+  );
+
+  const categoryValidation = useCallback(
+    () => (booksInActiveCategory(activeCategory).length === 0 ? true : false),
+    [activeCategory, booksInActiveCategory]
+  );
+
   return (
     <section
       className={
@@ -30,17 +41,31 @@ export const Books = () => {
           ? styles.books_bricks
           : !view && items.length > 0
           ? styles.books_list
-          : styles.books_empty
+          : styles.books_emptySearch
       }
     >
       {items.map((book: IBooks) => (
         <BookCard {...book} key={book.id} />
       ))}
       <h2
-        className={items.length > 0 ? styles.books_empty_text_none : styles.books_empty_text}
+        className={
+          items.length === 0 && (!categoryValidation() || activeCategory.name === 'Все книги')
+            ? styles.books_emptySearch_text
+            : styles.books_emptySearch_text_none
+        }
         data-test-id='search-result-not-found'
       >
         По запросу ничего не найдено
+      </h2>
+      <h2
+        className={
+          items.length === 0 && categoryValidation() && activeCategory.name !== 'Все книги'
+            ? styles.books_emptySearch_text
+            : styles.books_emptySearch_text_none
+        }
+        data-test-id='empty-category'
+      >
+        В этой категории книг ещё нет
       </h2>
     </section>
   );

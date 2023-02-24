@@ -50,7 +50,7 @@ export const Sidebar = () => {
 
   useEffect(() => {
     if (pathnameValidation()) {
-      setIsOpenCategories(false);
+      setIsOpenCategories(true);
     }
   }, [location.pathname, pathnameValidation]);
 

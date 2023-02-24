@@ -39,9 +39,7 @@ export const Navigation = () => {
 
   const closeInput = useCallback(() => {
     setSearch(false);
-    setLocalValue('');
-    dispatch(setReduxSearchValue(''));
-  }, [dispatch]);
+  }, []);
 
   const updateValues = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocalValue(event.target.value);
@@ -82,7 +80,7 @@ export const Navigation = () => {
             data-test-id='input-search'
             type='text'
             className={isSearch ? styles.navigation_filters_search_inp_active : styles.navigation_filters_search_inp}
-            placeholder={width >= 768 ? 'Поиск книги или автора...' : ''}
+            placeholder={width >= 768 ? 'Поиск книги или автора…' : ''}
             ref={inputRef}
             value={localvalue}
             onChange={updateValues}
@@ -93,7 +91,7 @@ export const Navigation = () => {
             src={closeSearchImg}
             alt=''
             className={
-              (localvalue && width > 767) || isSearch
+              width < 768 && isSearch
                 ? styles.navigation_filters_search_close_active
                 : styles.navigation_filters_search_close
             }
@@ -102,14 +100,12 @@ export const Navigation = () => {
           />
         </div>
         {!isSearch || width > 767 ? (
-          <div className={styles.navigation_filters_sort}>
-            <img
-              src={sortTypeDesc ? sortImgDesc : sortImgAsc}
-              alt=''
-              className={styles.search_icon}
-              onClick={() => dispatch(sortBooks(!sortTypeDesc))}
-              data-test-id='sort-rating-button'
-            />
+          <div
+            className={styles.navigation_filters_sort}
+            onClick={() => dispatch(sortBooks(!sortTypeDesc))}
+            data-test-id='sort-rating-button'
+          >
+            <img src={sortTypeDesc ? sortImgDesc : sortImgAsc} alt='' className={styles.search_icon} />
             <h6>По рейтингу</h6>
           </div>
         ) : (

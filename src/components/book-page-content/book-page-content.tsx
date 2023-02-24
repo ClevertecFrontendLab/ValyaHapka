@@ -59,7 +59,7 @@ export const BookPageContent: React.FC<BookPageContentProps> = ({ book }) => {
             )}
 
             <div className={styles.book_wrapper_content_subinfo}>
-              <h1 data-test-id='book-title'>{book.title}</h1>
+              <h1 data-test-id='book-title'> {book.title}</h1>
               <div className={styles.book_wrapper_content_subinfo_author}>
                 {book.authors?.length === 1 ? (
                   <span>
@@ -111,7 +111,7 @@ export const BookPageContent: React.FC<BookPageContentProps> = ({ book }) => {
             )}
 
             <div className={styles.book_wrapper_content_subinfo}>
-              <h1 data-test-id='book-title'>{book.title}</h1>
+              <h1 data-test-id='book-title'> {book.title}</h1>
               <div className={styles.book_wrapper_content_subinfo_author}>
                 {book.authors?.length === 1 ? (
                   <span>

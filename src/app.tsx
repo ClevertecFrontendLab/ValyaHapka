@@ -14,6 +14,7 @@ function App() {
     <Provider store={store}>
       <HashRouter>
         <Routes>
+          <Route path='/' element={<MainPage />} />
           <Route path='/books/:category' element={<MainPage />} />
           <Route path='/books/:category/:bookID' element={<BookPage />} />
           <Route path='/rules' element={<Rules />} />

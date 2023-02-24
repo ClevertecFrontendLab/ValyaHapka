@@ -112,6 +112,9 @@
     a {
       width: 100%;
     }
+    h5 {
+      margin: 0;
+    }
     &_name {
       font-family: 'Montserrat';
       font-style: normal;
@@ -128,6 +131,22 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
         cursor: pointer;
+      }
+      &_count {
+        color: #a7a7a7;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 24px;
+        letter-spacing: 0.1px;
+        &_active {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+          background: #363636;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
       }
       span {
         margin-left: 6px;

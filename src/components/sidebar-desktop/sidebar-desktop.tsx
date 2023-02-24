@@ -25,7 +25,13 @@ export const SidebarDesktop: React.FC<SidebarProps> = ({
   return (
     <aside className={isOpenCategories ? styles.sidebar_active : styles.sidebar}>
       <div className={styles.sidebar_title} data-test-id='navigation-showcase' onClick={toggleCategories}>
-        <h3 className={pathnameValidation() ? styles.sidebar_title_text_active : styles.sidebar_title_text}>
+        <h3
+          className={
+            pathnameValidation() || location.pathname === '/'
+              ? styles.sidebar_title_text_active
+              : styles.sidebar_title_text
+          }
+        >
           Витрина книг
         </h3>
 
@@ -40,7 +46,7 @@ export const SidebarDesktop: React.FC<SidebarProps> = ({
         <NavLink to='/books/all' data-test-id='navigation-books'>
           <h5
             className={
-              activeCategory.name === 'Все книги' && pathnameValidation()
+              activeCategory.name === 'Все книги' && (pathnameValidation() || location.pathname === '/')
                 ? styles.sidebar_list_name_active
                 : styles.sidebar_list_name
             }
@@ -50,16 +56,29 @@ export const SidebarDesktop: React.FC<SidebarProps> = ({
           </h5>
         </NavLink>
         {categories.map((c) => (
-          <li key={c.name} onClick={() => changeReduxCategory(c.name, c.path)} data-test-id={`navigation-${c.name}`}>
+          <li key={c.name} onClick={() => changeReduxCategory(c.name, c.path)}>
             <NavLink to={`/books/${c.path}`}>
-              <h5
-                className={
-                  activeCategory.name === c.name && pathnameValidation()
-                    ? styles.sidebar_list_name_active
-                    : styles.sidebar_list_name
-                }
-              >
-                {c.name} <span data-test-id={`navigation-book-count-for-${c.name}`}>{booksInCategories(c).length}</span>
+              <h5>
+                <span
+                  className={
+                    activeCategory.name === c.name && pathnameValidation()
+                      ? styles.sidebar_list_name_active
+                      : styles.sidebar_list_name
+                  }
+                  data-test-id={`navigation-${c.path}`}
+                >
+                  {c.name}
+                </span>{' '}
+                <span
+                  className={
+                    activeCategory.name === c.name && pathnameValidation()
+                      ? styles.sidebar_list_name_count_active
+                      : styles.sidebar_list_name_count
+                  }
+                  data-test-id={`navigation-book-count-for-${c.path}`}
+                >
+                  {booksInCategories(c).length}
+                </span>
               </h5>
             </NavLink>
           </li>

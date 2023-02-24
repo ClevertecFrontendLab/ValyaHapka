@@ -58,9 +58,10 @@ export const BookPage = () => {
               className={styles.book_pathline_category}
               onClick={navigateToCategory}
               data-test-id='breadcrumbs-link'
-            >{`${activeCategory.name}`}</span>
-
-            <span data-test-id='book-name'> {` / ${book.title}`}</span>
+            >
+              {activeCategory.name}
+            </span>
+            /<span data-test-id='book-name'> {book.title}</span>
           </div>
         </div>
         <div className={status === 'loaded' ? styles.loaded_data : styles.unloaded_data}>

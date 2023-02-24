@@ -1,10 +1,11 @@
+/* eslint-disable complexity */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-no-useless-fragment */
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import Highlighter from 'react-highlight-words';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import activeStar from '../../assets/img/active_star.svg';
 import catIcon from '../../assets/img/cat_icon.svg';
@@ -20,6 +21,7 @@ import listViewStyles from './book-card-list.module.scss';
 
 export const BookCard: React.FC<IBooks> = React.memo(
   ({ title, image, booking, authors, issueYear, rating, id, delivery }) => {
+    const location = useLocation();
     const view = useAppSelector((state) => viewSelector(state));
     const { searchValue } = useAppSelector((state) => booksSelector(state));
     const { activeCategory } = useAppSelector((state) => categoriesSelector(state));
@@ -28,12 +30,13 @@ export const BookCard: React.FC<IBooks> = React.memo(
     const inactiveStars = [...new Array(5 - Math.floor(rating as number))].map(() => <img src={inactiveStar} alt='' />);
 
     const path = `/${activeCategory.path}/${id}`;
+    const pathWithBooks = `/books/${path}`;
 
     const img = `https://strapi.cleverland.by${image?.url}`;
 
     const changedTitle = (bookTitle: string) => {
-      if (bookTitle.length >= 50) {
-        return bookTitle.split('', 47).join('').padEnd(50, '.');
+      if (bookTitle.length >= 60) {
+        return bookTitle.split('', 57).join('').padEnd(60, '.');
       }
 
       return bookTitle;
@@ -43,9 +46,16 @@ export const BookCard: React.FC<IBooks> = React.memo(
       e.preventDefault();
     };
 
+    useEffect(() => {
+      const items = document.querySelectorAll('mark');
+
+      // eslint-disable-next-line no-return-assign, no-param-reassign
+      (items as NodeListOf<HTMLElement>).forEach((el) => (el.dataset.testId = 'highlight-matches'));
+    }, [searchValue]);
+
     if (view) {
       return (
-        <Link to={path}>
+        <Link to={location.pathname === '/' ? pathWithBooks : path}>
           <div className={cardStyles.card} data-test-id='card'>
             <div className={cardStyles.card_img}>
               {image ? (
@@ -72,7 +82,6 @@ export const BookCard: React.FC<IBooks> = React.memo(
                   searchWords={[searchValue]}
                   autoEscape={true}
                   textToHighlight={changedTitle(title)}
-                  data-test-id='highlight-matches'
                 />
               </h2>
 
@@ -130,7 +139,6 @@ export const BookCard: React.FC<IBooks> = React.memo(
                   searchWords={[searchValue]}
                   autoEscape={true}
                   textToHighlight={title}
-                  data-test-id='highlight-matches'
                 />
               </h2>
               {(authors as string[]).length === 1 ? (
