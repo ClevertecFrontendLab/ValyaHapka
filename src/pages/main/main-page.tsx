@@ -17,8 +17,8 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import styles from './main-page.module.scss';
 
 export const MainPage = () => {
-  const [isOpenModal, setModal] = useState(true);
   const dispatch = useAppDispatch();
+  const [isOpenModal, setModal] = useState(true);
   const { status } = useAppSelector((state) => booksSelector(state));
 
   const closeModal = () => {

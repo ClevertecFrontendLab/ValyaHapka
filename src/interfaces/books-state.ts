@@ -9,5 +9,8 @@ export enum Status {
 
 export interface BooksState {
   status: Status;
+  baseItems: IBooks[];
   items: IBooks[];
+  searchValue: string;
+  sortTypeDesc: boolean;
 }

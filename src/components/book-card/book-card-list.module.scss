@@ -42,12 +42,16 @@
       gap: 8px;
       h2 {
         width: 649px;
-        font-family: 'Montserrat';
-        font-style: normal;
         font-weight: 700;
         font-size: 22px;
         line-height: 32px;
         color: #363636;
+        span {
+          font-weight: 700;
+          font-size: 22px;
+          line-height: 32px;
+          color: #363636;
+        }
       }
       span {
         font-family: 'Montserrat';
@@ -69,6 +73,12 @@
           font-weight: 600;
           font-size: 14px;
           line-height: 18px;
+          span {
+            width: 188px;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 18px;
+          }
         }
       }
     }

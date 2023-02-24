@@ -6,7 +6,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import openSidebarImg from '../../assets/img/stroke.svg';
 import { SidebarProps } from '../../interfaces/sidebar-props';
-import { categoriesSelector, changeCategory } from '../../redux/slices/category-slice';
+import { categoriesSelector } from '../../redux/slices/category-slice';
 import { burgerSelector, changeBurger } from '../../redux/slices/view-slice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 
@@ -17,20 +17,13 @@ export const SidebarTablet: React.FC<SidebarProps> = ({
   isOpenCategories,
   pathnameValidation,
   categories,
+  changeReduxCategory,
+  booksInCategories,
 }) => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const isBurger = useAppSelector((state) => burgerSelector(state));
   const { activeCategory } = useAppSelector((state) => categoriesSelector(state));
-
-  const changeReduxCategory = (e: React.MouseEvent, p: string) => {
-    const category = {
-      name: (e.target as HTMLDivElement).outerText,
-      path: p,
-    };
-
-    dispatch(changeCategory(category));
-  };
 
   useEffect(() => {
     if (isBurger) {
@@ -60,29 +53,42 @@ export const SidebarTablet: React.FC<SidebarProps> = ({
         className={isOpenCategories ? styles.sidebar_list : styles.sidebar_list_hide}
         onClick={() => dispatch(changeBurger(false))}
       >
-        <NavLink to='/allBooks' data-test-id='burger-books'>
+        <NavLink to='/books/all' data-test-id='burger-books'>
           <h5
             className={
               activeCategory.name === 'Все книги' && (pathnameValidation() || location.pathname === '/')
                 ? styles.sidebar_list_name_active
                 : styles.sidebar_list_name
             }
-            onClick={(e) => changeReduxCategory(e, 'all')}
+            onClick={() => changeReduxCategory('Все книги', 'all')}
           >
             Все книги
           </h5>
         </NavLink>
         {categories.map((c) => (
-          <li key={c.name} onClick={(e) => changeReduxCategory(e, c.path)}>
-            <NavLink to={`/${c.path}`}>
-              <h5
-                className={
-                  activeCategory.name === `${c.name}` && pathnameValidation()
-                    ? styles.sidebar_list_name_active
-                    : styles.sidebar_list_name
-                }
-              >
-                {c.name}
+          <li key={c.name} onClick={() => changeReduxCategory(c.name, c.path)}>
+            <NavLink to={`/books/${c.path}`}>
+              <h5>
+                <span
+                  className={
+                    activeCategory.name === c.name && pathnameValidation()
+                      ? styles.sidebar_list_name_active
+                      : styles.sidebar_list_name
+                  }
+                  data-test-id={`burger-${c.path}`}
+                >
+                  {c.name}
+                </span>{' '}
+                <span
+                  className={
+                    activeCategory.name === c.name && pathnameValidation()
+                      ? styles.sidebar_list_name_count_active
+                      : styles.sidebar_list_name_count
+                  }
+                  data-test-id={`burger-book-count-for-${c.path}`}
+                >
+                  {booksInCategories(c).length}
+                </span>
               </h5>
             </NavLink>
           </li>

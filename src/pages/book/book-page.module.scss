@@ -21,6 +21,7 @@
       align-items: center;
       padding: 20px 165px;
       gap: 4px;
+      color: #a7a7a7;
       span {
         font-family: 'Montserrat';
         font-style: normal;
@@ -32,6 +33,9 @@
         letter-spacing: 0.1px;
         color: #a7a7a7;
       }
+    }
+    &_category {
+      cursor: pointer;
     }
   }
   @media (max-width: 957px) {

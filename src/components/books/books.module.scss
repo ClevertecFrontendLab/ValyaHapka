@@ -8,6 +8,29 @@
   flex-direction: column;
   gap: 16px;
 }
+.books_emptySearch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &_text {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 40px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    color: #a7a7a7;
+    &_none {
+      display: none;
+    }
+  }
+  @media (max-width: 540px) {
+    &_text {
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
+}
+
 @media (max-width: 1439px) {
   .books_bricks {
     display: flex !important;

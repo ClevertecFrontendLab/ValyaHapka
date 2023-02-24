@@ -19,7 +19,7 @@ const initialState: CategoryState = {
   categories: [],
   activeCategory: {
     name: 'Все книги',
-    path: 'all',
+    path: '/books/all',
   },
 };
 

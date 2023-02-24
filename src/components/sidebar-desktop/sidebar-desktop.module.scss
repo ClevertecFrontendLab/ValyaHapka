@@ -117,6 +117,9 @@
     a {
       width: 100%;
     }
+    h5 {
+      margin: 0;
+    }
     &_name {
       font-family: 'Montserrat';
       font-style: normal;
@@ -134,10 +137,22 @@
         background-clip: text;
         cursor: pointer;
       }
-      span {
-        margin-left: 6px;
+
+      &_count {
         color: #a7a7a7;
+        font-weight: 400;
         font-size: 14px;
+        line-height: 24px;
+        letter-spacing: 0.1px;
+        &_active {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+          background: #363636;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
       }
       &_active {
         font-family: 'Montserrat';
@@ -155,13 +170,6 @@
         line-height: 28px;
         letter-spacing: 0.1px;
         margin: 0;
-        span {
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 24px;
-          margin-left: 6px;
-          color: #a7a7a7;
-        }
       }
     }
   }

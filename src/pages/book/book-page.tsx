@@ -1,9 +1,10 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Lottie from 'lottie-react';
 
 import activeStar from '../../assets/img/active_star.svg';
@@ -23,6 +24,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import styles from './book-page.module.scss';
 
 export const BookPage = () => {
+  const navigate = useNavigate();
   const [isOpenModal, setModal] = useState(true);
   const { bookID } = useParams();
   const [isOpenReviews, setIsOpenReviews] = useState(true);
@@ -42,13 +44,24 @@ export const BookPage = () => {
     fetchingData();
   }, [bookID, dispatch]);
 
+  const navigateToCategory = () => {
+    navigate(`/${activeCategory.path}`);
+  };
+
   return (
     <section className={styles.book}>
       <Header />
       <main>
         <div className={styles.book_pathline}>
           <div className={styles.book_pathline_block}>
-            <span>{`${activeCategory.name} / ${book.title}`}</span>
+            <span
+              className={styles.book_pathline_category}
+              onClick={navigateToCategory}
+              data-test-id='breadcrumbs-link'
+            >
+              {activeCategory.name}
+            </span>
+            /<span data-test-id='book-name'> {book.title}</span>
           </div>
         </div>
         <div className={status === 'loaded' ? styles.loaded_data : styles.unloaded_data}>

@@ -6,21 +6,39 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { categoriesSelector } from '../../redux/slices/category-slice';
-import { useAppSelector } from '../../redux/store';
+import { Category } from '../../interfaces/category-state';
+import { booksSelector } from '../../redux/slices/books-slice';
+import { categoriesSelector, changeCategory } from '../../redux/slices/category-slice';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { SidebarDesktop } from '../sidebar-desktop';
 import { SidebarTablet } from '../sidebar-tablet';
 
 export const Sidebar = () => {
+  const dispatch = useAppDispatch();
   const { categories } = useAppSelector((state) => categoriesSelector(state));
+  const { baseItems } = useAppSelector((state) => booksSelector(state));
   const location = useLocation();
   const [isOpenCategories, setIsOpenCategories] = useState(true);
   const [width, setWidth] = useState(window.innerWidth);
 
   const onChangeWidth = useCallback(() => setWidth(window.innerWidth), []);
 
+  const booksInCategories = useCallback(
+    (category: Category) => baseItems.filter((book) => book.categories?.some((c) => c === category.name)),
+    [baseItems]
+  );
+
+  const changeReduxCategory = (n: string, p: string) => {
+    const category = {
+      name: n,
+      path: `/books/${p}`,
+    };
+
+    dispatch(changeCategory(category));
+  };
+
   const pathnameValidation = useCallback(
-    () => categories.some((c) => location.pathname === `/${c.path}`),
+    () => categories.some((c) => location.pathname === `/books/${c.path}` || location.pathname === '/books/all'),
     [categories, location.pathname]
   );
 
@@ -31,8 +49,8 @@ export const Sidebar = () => {
   };
 
   useEffect(() => {
-    if (pathnameValidation() || location.pathname !== '/') {
-      setIsOpenCategories(false);
+    if (pathnameValidation()) {
+      setIsOpenCategories(true);
     }
   }, [location.pathname, pathnameValidation]);
 
@@ -44,6 +62,25 @@ export const Sidebar = () => {
     };
   }, [onChangeWidth]);
 
+  useEffect(() => {
+    function findNameByPath() {
+      const foundCategory = categories.find((c) => `/books/${c.path}` === location.pathname);
+
+      if (foundCategory !== undefined) {
+        return foundCategory.name;
+      }
+
+      return 'Все книги';
+    }
+
+    const category = {
+      name: findNameByPath(),
+      path: location.pathname.slice(1),
+    };
+
+    dispatch(changeCategory(category));
+  }, [categories, dispatch, location.pathname]);
+
   return (
     <React.Fragment>
       {width >= 1240 ? (
@@ -52,6 +89,8 @@ export const Sidebar = () => {
           isOpenCategories={isOpenCategories}
           pathnameValidation={pathnameValidation}
           categories={categories}
+          changeReduxCategory={changeReduxCategory}
+          booksInCategories={booksInCategories}
         />
       ) : (
         <SidebarTablet
@@ -59,6 +98,8 @@ export const Sidebar = () => {
           isOpenCategories={isOpenCategories}
           pathnameValidation={pathnameValidation}
           categories={categories}
+          changeReduxCategory={changeReduxCategory}
+          booksInCategories={booksInCategories}
         />
       )}
     </React.Fragment>
